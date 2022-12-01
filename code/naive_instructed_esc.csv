@@ -1,0 +1,3 @@
+source,source.label,sample,chemistry
+naive_scRNA,naive_scRNA,naive_scRNA,10x Genomics v3
+instructed_scRNA,instructed_scRNA,instructed_scRNA,10x Genomics v3
