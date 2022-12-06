@@ -4,4 +4,5 @@
   </p>
 
 ### Information
-- code folder contains
+- "code" folder contains codes to install packages, download and analyze datasets, and meta files to set up the analysis.
+- "data" folder contains results from the analysis.
