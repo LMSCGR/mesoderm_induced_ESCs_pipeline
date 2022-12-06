@@ -3,10 +3,11 @@ library(Seurat)
 library(harmony)
 library(data.table)
 library(parallel)
+library (readr)
 # Set number of cores to use
 NCORES = 1 #
 meta <- fread("naive_instructed_esc.csv")
-data_dir <- list("/Volumes/macbook_backup/backup/star_protocol/naive_scRNA/","/Volumes/macbook_backup/backup/star_protocol/instructed_scRNA/")
+data_dir <- list("./naive_scRNA/","./instructed_scRNA/")
 mat.list <- list()
 soupx.used <- list()
 for(i in 1:length(data_dir)){ 
@@ -97,7 +98,7 @@ scMuscle.pref.seurat <- merge(
   tmp.list[[1]],
   y = tmp.list[[2]]
 )
-tiff("../figures/figure10.tiff", units="in", width=10, height=5, res=300)
+#tiff("../figures/figure10.tiff", units="in", width=10, height=5, res=300)
 VlnPlot(
   scMuscle.pref.seurat,
   features = c(
@@ -108,7 +109,7 @@ VlnPlot(
   group.by = 'source',
   pt.size = 0
 )
-dev.off()
+#dev.off()
 
 #     Seurat preprocessing on merged data ----
 DefaultAssay(scMuscle.pref.seurat) <- 'RNA'
@@ -129,9 +130,9 @@ scMuscle.pref.seurat <-
     verbose = TRUE,
     npcs = 50
   ) 
-tiff("../figures/figure11.tiff", units="in", width=10, height=5, res=300)
+#tiff("../figures/figure11.tiff", units="in", width=10, height=5, res=300)
 ElbowPlot(scMuscle.pref.seurat, reduction = 'pca_RNA', ndims = 50)
-dev.off()
+#dev.off()
 
 n.pcs = 30
 scMuscle.pref.seurat <-
@@ -152,7 +153,7 @@ scMuscle.pref.seurat <-
   scMuscle.pref.seurat %>% RunHarmony(
     group.by.vars=c('sample'), reduction='pca_RNA',
     assay='RNA',plot_convergence = TRUE,verbose=TRUE) 
-n.pcs = npcs(scMuscle.pref.seurat,reduction="harmony")
+#n.pcs = npcs(scMuscle.pref.seurat,reduction="harmony")
 scMuscle.pref.seurat <- 
   scMuscle.pref.seurat %>% RunUMAP(
     reduction = 'harmony', dims = 1:n.pcs,
@@ -177,9 +178,9 @@ library(ggplot2)
 
 p1<-DimPlot(object = scMuscle.pref.seurat, reduction = "umap_RNA", pt.size = .1, group.by = "sample")+labs(title = "Merged by Seurat directly")
 p2<-DimPlot(object = scMuscle.pref.seurat, reduction = "umap_harmony", pt.size = .1, group.by = "sample")+labs(title = "Merged by Seurat with Harmony")
-tiff("../figures/figure12.tiff", units="in", width=10, height=5, res=300)
+#tiff("../figures/figure12.tiff", units="in", width=10, height=5, res=300)
 p1+p2
-dev.off()
+#dev.off()
 save(scMuscle.pref.seurat,file="naive_instructed_scRNA_ESCs.RData")
 
 

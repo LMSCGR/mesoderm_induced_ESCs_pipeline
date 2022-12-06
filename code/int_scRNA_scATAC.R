@@ -36,7 +36,7 @@ s1<-DotPlot(aPSM, features = aPSM_gene, cols = c("blue", "red"), dot.scale = 8, 
 
 library(grid)
 library(gridExtra)
-tiff("../figures/figure13.tiff", units="in", width=15, height=7.5, res=300)
+#tiff("../figures/figure13.tiff", units="in", width=15, height=7.5, res=300)
 grid.arrange(s1, p1, ncol = 2,widths = c(8,9))
-dev.off()
+#dev.off()
 

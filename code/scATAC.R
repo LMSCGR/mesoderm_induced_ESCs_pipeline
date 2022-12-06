@@ -4,13 +4,15 @@ library(GenomeInfoDb)
 library(EnsDb.Mmusculus.v79)
 library(patchwork)
 set.seed(1234)
-aPSM.counts <- Read10X_h5("/Volumes/macbook_backup/backup/star_protocol/aPSM_scATAC/filtered_peak_bc_matrix.h5")
-aPSM_meta <- read.table("/Volumes/macbook_backup/backup/star_protocol/aPSM_scATAC/singlecell.csv.gz", sep = ",", header = TRUE, row.names = 1)
+#aPSM.counts <- Read10X_h5("/Volumes/macbook_backup/backup/star_protocol/aPSM_scATAC/filtered_peak_bc_matrix.h5")
+#aPSM_meta <- read.table("/Volumes/macbook_backup/backup/star_protocol/aPSM_scATAC/singlecell.csv.gz", sep = ",", header = TRUE, row.names = 1)
+aPSM.counts <- Read10X_h5("./aPSM_scATAC/filtered_peak_bc_matrix.h5")
+aPSM_meta <- read.table("./aPSM_scATAC/singlecell.csv.gz", sep = ",", header = TRUE, row.names = 1)
 aPSM_chrom_assay <- CreateChromatinAssay(
   counts = aPSM.counts,
   sep = c(":","-"),
   genome = 'mm10',
-  fragments = '/Volumes/macbook_backup/backup/star_protocol/aPSM_scATAC/fragments.tsv.gz', min.cells = 3, min.features = 100)
+  fragments = './aPSM_scATAC/fragments.tsv.gz', min.cells = 3, min.features = 100)
 aPSM_atac <- CreateSeuratObject(
   counts = aPSM_chrom_assay, 
   assay = 'aPSM_peaks',
@@ -37,12 +39,12 @@ aPSM_atac$blacklist_ratio <- aPSM_atac$blacklist_region_fragments / aPSM_atac$pe
 #               'TSS.enrichment', 'blacklist_ratio', 'nucleosome_signal'),pt.size = 0.1, ncol = 3)
 #dev.off()
 
-jpeg("../figures/figure8.jpg", units="in", width=10, height=5, res=300)
+#jpeg("../figures/figure8.jpg", units="in", width=10, height=5, res=300)
 VlnPlot(
   object = aPSM_atac,
   features = c('pct_reads_in_peaks', 'peak_region_fragments',
                'TSS.enrichment', 'nucleosome_signal'),pt.size = 0.1,ncol=4)
-dev.off()
+#dev.off()
 
 
 
